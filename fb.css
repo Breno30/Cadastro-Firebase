@@ -1,0 +1,26 @@
+﻿body {
+    background-color: rgb(210,210,216);
+}
+
+input {
+    border: hidden;
+    border-bottom: 1px solid rgb(121, 120, 120);
+    border-left: 1px solid rgb(95, 94, 94);
+    /*    background-color: transparent;*/
+    background-color: rgb(236,236,236);
+    outline: none;
+}
+
+/*retirando +/- dos inputs */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.tab_td {
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+    padding-right: 5vw;
+    padding-left: 5vw;
+}
