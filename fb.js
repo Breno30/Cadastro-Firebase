@@ -24,7 +24,7 @@ function pegar_dados() {
 
     function recebendo(dat) {
 
-	    var datv = dat.val();
+        var datv = dat.val();
         if (datv != null) {
             //se tiver dados
             var nomes = idades = rgs = [];
@@ -53,27 +53,36 @@ function fazer_tabela_dados(infos) {
     $('#tab').append('<table>');
     //linha
     fazer_tabela_inputs();
-    for (cont in infos){
+    for (cont in infos) {
         let info = infos[cont];
         let rg = info.rg
         let nome = info.nome
         let idade = info.idade
 
         $('#tab').append(
- 
+
             //nome
-            //'<tr><td class="tab_td"><input type="text" onblur="atualizar_dados("nome","'+rgs[contador]+'")" id="nome_'+rgs[contador]+'" value="' + nomes[contador].toUpperCase() + '"/></td>' +
-            '<tr><td class="tab_td"><input type="text" id="nome'+ rg + '" value="' + nome + '"/></td>' +
-            '<script>$("#nome' + rg+ '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados("nome",' + rg + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rg + ');} });</script>' +
+            `<tr><td class="tab_td"><input type="text" id="nome_${rg}" value="${nome}"/></td>` +
 
             //idade
-            '<td class="tab_td"><input type="number" id="idade' + rg + '" value="' + idade+ '" /></td>' +
-            '<script>$("#idade' + rg+ '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados("idade",' + rg + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rg + ');} });</script>' +
-            
+            `<td class="tab_td"><input type="number" id="idade_${rg}" value="${idade}" /></td>` +
+
             //rg
-            '<td class="tab_td"><input type="number" id="rg' + rg + '" value="' + rg + '" /></td>' +
-            '<script>$("#rg' + rg+ '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados("rg",' + rg + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rg + ');} });</script>' +
-            '<td class="tab_td" onclick="deletar(' + rg+ ')" style="font-family:Segoe UI; color: rgb(95, 94, 94);">X</td></tr>');
+            `<td class="tab_td"><input type="number" id="rg_${rg}" value="${rg}" /></td>` +
+
+            //botão de excluir
+            `<td class="tab_td" onclick="deletar(${rg})">X</td></tr>` );
+
+        const handle_key = (tipo, e) => {
+            if (e.key == "Enter")
+                atualizar_dados(tipo, rg);
+            if (e.key == "Delete")
+                deletar(rg);
+        }
+
+        $("#rg_" + rg).keydown((e) => handle_key("rg", e));
+        $("#nome_" + rg).keydown((e) => handle_key("nome", e));
+        $("#idade_" + rg).keydown((e) => handle_key("idade", e));
 
     }
 
@@ -116,27 +125,27 @@ function registrar(nome, idade, rg) {
 
 function atualizar_dados(tipo, rg) {
 
-    var resposta = confirm('Deseja alterar ' + tipo + ' do usuário ' + rg + '? ');
+    var resposta = confirm(`Deseja alterar ${tipo} do usuário ${rg}? `);
     if (resposta) {
         //se usuario confirmar, atualizar firebase com dados do input
         var updates = {}
-        var recebece_input = $('#' + tipo + rg).val();
+        var recebece_input = $(`#${tipo}_${rg}`).val();
         updates['user_' + rg + '/' + tipo] = recebece_input;
         var a = firebase.database().ref().update(updates);
 
-        
+
         //caso queira alterar rg também será alterado o nome user
         if (tipo == "rg") {
             var star = firebase.database().ref();
             //pega valores
-            star.child('user_' + rg).once('value', function (snapshot) {    
+            star.child('user_' + rg).once('value', function (snapshot) {
                 //transfere valores para o novo user
                 firebase.database().ref('user_' + recebece_input).set(snapshot.val());
                 //deleta antigo user
                 firebase.database().ref().child('user_' + rg).remove();
             });
 
-        } 
+        }
 
     } else {
         //se não, recarrega pagina com valores anteriores
@@ -146,11 +155,11 @@ function atualizar_dados(tipo, rg) {
 }
 
 function deletar(rg) {
-    var resposta = confirm('Deseja deletar usuário ' + rg+'?');
+    var resposta = confirm('Deseja deletar usuário ' + rg + '?');
     if (resposta) {
         firebase.database().ref().child("user_" + rg).remove();
     }
-    
+
 }
 
 
