@@ -1,14 +1,5 @@
-﻿
-//configura firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyCeqJaKRR16qJIuHkImMPKh5Yyx0p9KErw",
-    authDomain: "cadastro-63b61.firebaseapp.com",
-    databaseURL: "https://cadastro-63b61.firebaseio.com",
-    projectId: "cadastro-63b61",
-    storageBucket: "cadastro-63b61.appspot.com",
-    messagingSenderId: "136986714244",
-    appId: "1:136986714244:web:4f29add78d5682143ca2d1"
-};
+﻿import { firebaseConfig } from './firebaseConfig.js'
+
 //inicia firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
