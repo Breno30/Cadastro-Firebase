@@ -69,7 +69,7 @@ function fazer_tabela_dados(infos) {
             `<td class="tab_td"><input type="number" id="rg_${rg}" value="${rg}" /></td>` +
 
             //botão de excluir
-            `<td class="tab_td" onclick="deletar(${rg})">X</td></tr>` );
+            `<td class="tab_td btn_delete" onclick="deletar(${rg})">X</td></tr>` );
 
         const handle_key = (tipo, e) => {
             if (e.key == "Enter")
@@ -96,7 +96,7 @@ function fazer_tabela_inputs() {
         //quando clicar no enter no input rg, mandar para firebase
         //ou quando clicar no simbolo
         '<script>$("#rg_cadastro").keypress(function (e) {if (e.key == "Enter") {console.log(e.key); salvar();}});</script>' +
-        '<td class="tab_td" onclick="salvar()" style="font-size: 19pt; color: rgb(95, 94, 94) ">🗸</td></tr>'
+        '<td class="tab_td btn_save" onclick="salvar()">🗸</td></tr>'
     );
 
 }
