@@ -78,12 +78,19 @@ function fazer_tabela_dados(infos) {
 }
 function fazer_tabela_inputs() {
     $('#tab').append(
+        //identificadores
         '<tr><th class="tab_td">NOME</th><th class="tab_td">IDADE</th><th class="tab_td">RG</th></tr>' +
-        //inputs para cadastro
+
+        //input para Nome
         '<tr ><td class="tab_td"><input type="text" id="nome_cadastro" /></td>' +
+
+        //input para Idade
         '<td class="tab_td"><input type="number" id="idade_cadastro" /></td>' +
+
+        //input para Rg
         '<td class="tab_td"><input type="number" id="rg_cadastro" /></td>' +
-        //quando clicar no enter no input rg, manda para inforamações para firebase
+
+        //coluna salvar
         '<td class="tab_td btn_save" onclick="salvar()">🗸</td></tr>'
     );
 
@@ -104,7 +111,7 @@ function salvar() {
 
 function registrar(nome, idade, rg) {
 
-    firebase.database().ref('user_' + rg).set({
+    firebase.database().ref(`user_${rg}`).set({
         nome: nome,
         idade: idade,
         rg: rg,
@@ -128,11 +135,11 @@ function atualizar_dados(tipo, rg) {
         if (tipo == "rg") {
             var star = firebase.database().ref();
             //pega valores
-            star.child('user_' + rg).once('value', function (snapshot) {
+            star.child(`user_${rg}`).once('value', function (snapshot) {
                 //transfere valores para o novo user
-                firebase.database().ref('user_' + recebece_input).set(snapshot.val());
+                firebase.database().ref(`user_${recebece_input}`).set(snapshot.val());
                 //deleta antigo user
-                firebase.database().ref().child('user_' + rg).remove();
+                firebase.database().ref().child(`user_${rg}`).remove();
             });
 
         }
@@ -145,8 +152,8 @@ function atualizar_dados(tipo, rg) {
 }
 
 function deletar(rg) {
-    var resposta = confirm('Deseja deletar usuário ' + rg + '?');
-    if (resposta) firebase.database().ref().child("user_" + rg).remove();
+    var resposta = confirm(`Deseja deletar usuário ${rg}?`);
+    if (resposta) firebase.database().ref().child(`user_${rg}`).remove();
 
 }
 
