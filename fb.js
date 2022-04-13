@@ -1,6 +1,4 @@
-﻿import { firebaseConfig } from './firebaseConfig.js'
-
-//inicia firebase
+﻿//inicia firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
