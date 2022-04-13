@@ -18,9 +18,20 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+.btn_save{
+    font-size: 19pt; 
+    color: green;
+}
+
+.btn_delete{
+    color: rgb(131, 57, 65);
+}
+
 .tab_td {
     padding-top: 1vw;
     padding-bottom: 1vw;
     padding-right: 5vw;
     padding-left: 5vw;
+    font-family:Segoe UI; 
+  
 }
