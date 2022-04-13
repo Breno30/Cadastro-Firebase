@@ -19,10 +19,6 @@ pegar_dados();
 
 function pegar_dados() {
 
-    var nomes = [];
-    var idades = [];
-    var rgs = [];
-
     var star = firebase.database().ref();
     star.on('value', recebendo);
 
