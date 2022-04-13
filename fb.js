@@ -88,16 +88,19 @@ function fazer_tabela_dados(infos) {
     $('#tab').append('</table>');
 }
 function fazer_tabela_inputs() {
-    $('#tab').append('<tr><th class="tab_td">NOME</th><th class="tab_td">IDADE</th><th class="tab_td">RG</th></tr>' +
+    $('#tab').append(
+        '<tr><th class="tab_td">NOME</th><th class="tab_td">IDADE</th><th class="tab_td">RG</th></tr>' +
         //inputs para cadastro
         '<tr ><td class="tab_td"><input type="text" id="nome_cadastro" /></td>' +
         '<td class="tab_td"><input type="number" id="idade_cadastro" /></td>' +
         '<td class="tab_td"><input type="number" id="rg_cadastro" /></td>' +
-        //quando clicar no enter no input rg, mandar para firebase
-        //ou quando clicar no simbolo
-        '<script>$("#rg_cadastro").keypress(function (e) {if (e.key == "Enter") {console.log(e.key); salvar();}});</script>' +
+        //quando clicar no enter no input rg, manda para inforamações para firebase
         '<td class="tab_td btn_save" onclick="salvar()">🗸</td></tr>'
     );
+
+    $("#rg_cadastro").keypress(function (e) {
+        if (e.key == "Enter") salvar();
+    });
 
 }
 
@@ -109,6 +112,7 @@ function salvar() {
         registrar($('#nome_cadastro').val(), $('#idade_cadastro').val(), $('#rg_cadastro').val());
 
 }
+
 function registrar(nome, idade, rg) {
 
     firebase.database().ref('user_' + rg).set({
@@ -127,7 +131,7 @@ function atualizar_dados(tipo, rg) {
         //se usuario confirmar, atualizar firebase com dados do input
         var updates = {}
         var recebece_input = $(`#${tipo}_${rg}`).val();
-        updates['user_' + rg + '/' + tipo] = recebece_input;
+        updates[`user_${rg}/${tipo}`] = recebece_input;
         var a = firebase.database().ref().update(updates);
 
 
@@ -153,9 +157,7 @@ function atualizar_dados(tipo, rg) {
 
 function deletar(rg) {
     var resposta = confirm('Deseja deletar usuário ' + rg + '?');
-    if (resposta) {
-        firebase.database().ref().child("user_" + rg).remove();
-    }
+    if (resposta) firebase.database().ref().child("user_" + rg).remove();
 
 }
 
