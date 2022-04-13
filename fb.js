@@ -69,7 +69,7 @@ function fazer_tabela_dados(infos) {
             `<td class="tab_td"><input type="number" id="rg_${rg}" value="${rg}" /></td>` +
 
             //botão de excluir
-            `<td class="tab_td btn_delete" onclick="deletar(${rg})">X</td></tr>` );
+            `<td class="tab_td btn_delete" onclick="deletar(${rg})">X</td></tr>`);
 
         const handle_key = (tipo, e) => {
             if (e.key == "Enter")
@@ -103,12 +103,11 @@ function fazer_tabela_inputs() {
 
 
 function salvar() {
-    if ($('#rg_cadastro').val() == '') {
+    if ($('#rg_cadastro').val() == '')
         alert('RG vazio, por favor preencha');
-    } else {
-
+    else
         registrar($('#nome_cadastro').val(), $('#idade_cadastro').val(), $('#rg_cadastro').val());
-    }
+
 }
 function registrar(nome, idade, rg) {
 
