@@ -27,19 +27,13 @@ function pegar_dados() {
 	    var datv = dat.val();
         if (datv != null) {
             //se tiver dados
-            var nomes = [];
-            var idades = [];
-            var rgs = [];
+            var nomes = idades = rgs = [];
 
-            var data = Object.values(datv);
+            var infos = Object.values(datv);
 
-            for (var contador = 0; contador < data.length; contador++){
-                nomes.push(data[contador]['nome']);
-                idades.push(data[contador]['idade']);
-                rgs.push(data[contador]['rg']);
-            }
             //fazendo tabela com valores recebidos
-            fazer_tabela_dados(nomes, idades, rgs);
+            fazer_tabela_dados(infos);
+
         } else {
             //se nao tiver dados
             $('#tab').html('');
@@ -52,28 +46,34 @@ function pegar_dados() {
 }
 
 
-function fazer_tabela_dados(nomes, idades, rgs) {
-    var tempo_atualizacao = 5000;
+function fazer_tabela_dados(infos) {
     //limpa tabela
     $('#tab').html('');
     //inicial tabela
     $('#tab').append('<table>');
     //linha
     fazer_tabela_inputs();
-    for (var contador = 0; contador < nomes.length;contador++){
+    for (cont in infos){
+        let info = infos[cont];
+        let rg = info.rg
+        let nome = info.nome
+        let idade = info.idade
+
         $('#tab').append(
+ 
             //nome
             //'<tr><td class="tab_td"><input type="text" onblur="atualizar_dados("nome","'+rgs[contador]+'")" id="nome_'+rgs[contador]+'" value="' + nomes[contador].toUpperCase() + '"/></td>' +
-            '<tr><td class="tab_td"><input type="text" id="nome' + rgs[contador] + '" value="' + nomes[contador] + '"/></td>' +
-            '<script>$("#nome' + rgs[contador] + '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados(1,' + rgs[contador] + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rgs[contador] + ');} });</script>' +
+            '<tr><td class="tab_td"><input type="text" id="nome'+ rg + '" value="' + nome + '"/></td>' +
+            '<script>$("#nome' + rg+ '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados("nome",' + rg + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rg + ');} });</script>' +
 
             //idade
-            '<td class="tab_td"><input type="number" id="idade' + rgs[contador] + '" value="' + idades[contador] + '" /></td>' +
-            '<script>$("#idade' + rgs[contador] + '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados(2,' + rgs[contador] + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rgs[contador] + ');} });</script>' +
+            '<td class="tab_td"><input type="number" id="idade' + rg + '" value="' + idade+ '" /></td>' +
+            '<script>$("#idade' + rg+ '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados("idade",' + rg + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rg + ');} });</script>' +
+            
             //rg
-            '<td class="tab_td"><input type="number" id="rg' + rgs[contador] + '" value="' + rgs[contador] + '" /></td>' +
-            '<script>$("#rg' + rgs[contador] + '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados(3,' + rgs[contador] + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rgs[contador] + ');} });</script>' +
-            '<td class="tab_td" onclick="deletar(' + rgs[contador] + ')" style="font-family:Segoe UI; color: rgb(95, 94, 94);">X</td></tr>');
+            '<td class="tab_td"><input type="number" id="rg' + rg + '" value="' + rg + '" /></td>' +
+            '<script>$("#rg' + rg+ '").keydown(function (e) {if (e.key == "Enter") {console.log(e.key); atualizar_dados("rg",' + rg + ');}  if (e.key=="Delete"){console.log(e.key); deletar(' + rg + ');} });</script>' +
+            '<td class="tab_td" onclick="deletar(' + rg+ ')" style="font-family:Segoe UI; color: rgb(95, 94, 94);">X</td></tr>');
 
     }
 
@@ -114,20 +114,7 @@ function registrar(nome, idade, rg) {
 
 }
 
-function atualizar_dados(tipo_num, rg) {
-    var tipo;
-    //pegando tipo por extenso
-    switch (tipo_num) {
-        case 1:
-            tipo = 'nome';
-            break
-        case 2:
-            tipo = 'idade';
-            break
-        case 3:
-            tipo = 'rg';
-            break
-    }
+function atualizar_dados(tipo, rg) {
 
     var resposta = confirm('Deseja alterar ' + tipo + ' do usuário ' + rg + '? ');
     if (resposta) {
@@ -139,7 +126,7 @@ function atualizar_dados(tipo_num, rg) {
 
         
         //caso queira alterar rg também será alterado o nome user
-        if (tipo_num == 3) {
+        if (tipo == "rg") {
             var star = firebase.database().ref();
             //pega valores
             star.child('user_' + rg).once('value', function (snapshot) {    
