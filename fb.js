@@ -25,9 +25,7 @@ function pegar_dados() {
     function recebendo(dat) {
 
         var datv = dat.val();
-        if (datv != null) {
-            //se tiver dados
-            var nomes = idades = rgs = [];
+        if (datv) {
 
             var infos = Object.values(datv);
 
